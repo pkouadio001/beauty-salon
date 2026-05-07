@@ -1,0 +1,15 @@
+### GET request to example server
+GET http://localhost:8080/appointments/1
+
+### SIGN UP
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Jordan",
+  "lastName": "Smith",
+  "email": "jordan@example.com",
+  "phoneNumber": "1234567890",
+  "password": "password123",
+  "dateOfBirth": "2000-01-01"
+}
