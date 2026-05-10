@@ -2,10 +2,9 @@ package com.pemon.hairstyle.controller;
 
 import com.pemon.hairstyle.configuration.CustomerUserDetails;
 import com.pemon.hairstyle.configuration.EmployeeUserDetails;
-import com.pemon.hairstyle.model.AuthResponse;
-import com.pemon.hairstyle.model.Customer;
-import com.pemon.hairstyle.model.LoginRequest;
+import com.pemon.hairstyle.model.*;
 import com.pemon.hairstyle.service.CustomerService;
+import com.pemon.hairstyle.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,20 +18,30 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final CustomerService customerService;
+    private final EmployeeService employeeService;
     private final AuthenticationManager authenticationManager;
 
     public AuthController(
             CustomerService customerService,
+            EmployeeService employeeService,
             AuthenticationManager authenticationManager
     ) {
         this.customerService = customerService;
         this.authenticationManager = authenticationManager;
+        this.employeeService = employeeService;
+
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<Customer> register(@Valid @RequestBody Customer customer) {
-        Customer savedCustomer = customerService.registerCustomer(customer);
+    @PostMapping("/register/customer")
+    public ResponseEntity<CustomerSummaryResponse> registerCustomer(@Valid @RequestBody RegisterCustomerRequest request) {
+        CustomerSummaryResponse savedCustomer = customerService.registerCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
+    }
+
+    @PostMapping("/register/employee")
+    public ResponseEntity<EmployeeSummaryResponse> registerEmployee(@Valid @RequestBody RegisterEmployeeRequest request) {
+        EmployeeSummaryResponse savedEmployee = employeeService.registerEmployee(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
     }
 
     @PostMapping("/login")

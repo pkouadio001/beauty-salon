@@ -1,5 +1,7 @@
 package com.pemon.hairstyle.service;
 
+import com.pemon.hairstyle.model.CustomerSummaryResponse;
+import com.pemon.hairstyle.model.RegisterCustomerRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.pemon.hairstyle.model.Customer;
 import com.pemon.hairstyle.repository.CustomerRepository;
@@ -19,7 +21,15 @@ public class CustomerService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Customer registerCustomer(Customer customer) {
+    public CustomerSummaryResponse registerCustomer(RegisterCustomerRequest request) {
+
+        Customer customer = new Customer();
+        customer.setFirstName(request.firstName());
+        customer.setLastName(request.lastName());
+        customer.setEmail(request.email());
+        customer.setPhoneNumber(request.phoneNumber());
+        customer.setDateOfBirth(request.dateOfBirth());
+
         if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email is already registered");
         }
@@ -27,13 +37,18 @@ public class CustomerService {
         String encodedPassword = passwordEncoder.encode(customer.getPassword());
         customer.setPassword(encodedPassword);
 
-        return customerRepository.save(customer);
+        customerRepository.save(customer);
+        return new CustomerSummaryResponse(customer.getId(), customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getPhoneNumber());
     }
 
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+    public List<CustomerSummaryResponse> getAllCustomers() {
+        return customerRepository.findAll().stream().map(this::getCustomerSummary).toList();
     }
-    public Customer getCustomerById(Long id) {
-        return customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Customer not found"));
+    public CustomerSummaryResponse getCustomerById(Long id) {
+        return getCustomerSummary(customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Customer not found")));
     }
+    private CustomerSummaryResponse getCustomerSummary(Customer customer) {
+        return new CustomerSummaryResponse(customer.getId(), customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getPhoneNumber());
+    }
+
 }

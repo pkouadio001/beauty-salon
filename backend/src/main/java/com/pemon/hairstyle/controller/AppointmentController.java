@@ -2,6 +2,7 @@ package com.pemon.hairstyle.controller;
 
 import com.pemon.hairstyle.model.*;
 import com.pemon.hairstyle.service.AppointmentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,36 +17,42 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    @GetMapping("/appointments/")
-    public List<AppointmentResponse> getAppointmentsById(@RequestParam Long id) {
-        return appointmentService.getAppointmentsById(id);
+    @GetMapping("/appointments/{appointmentId}")
+    public List<AppointmentResponse> getAppointmentsById(@PathVariable Long appointmentId) {
+        return appointmentService.getAppointmentsById(appointmentId);
     }
 
-    @GetMapping("/appointments/{customerId}/customer")
+    @GetMapping("/customers/{customerId}/appointments")
     public List<CustomerAppointmentResponse> getCustomerAppointmentsById(@PathVariable Long customerId) {
         return appointmentService.getCustomerAppointmentsById(customerId);
     }
 
-    @GetMapping("/appointments/{employeeId}/employee")
+    @GetMapping("/employees/{employeeId}/appointments")
     public List<AppointmentResponse> getEmployeeAppointmentsById(@PathVariable Long employeeId) {
         return appointmentService.getAppointmentsByEmployeeId(employeeId);
     }
 
-    @GetMapping("/appointments/all")
+    @GetMapping("/appointments")
     public List<AppointmentResponse> getAllAppointments() {
         return appointmentService.getAllAppointments();
     }
 
-    @PostMapping("/appointment/book")
-    public Appointment bookAppointment(@RequestBody BookAppointmentRequest request) {
+    @PostMapping("/appointments")
+    public AppointmentResponse bookAppointment(@RequestBody BookAppointmentRequest request) {
         return appointmentService.saveAppointment(request);
     }
 
     //change appointment provider
-    @PatchMapping("/appointments/{appointmentId}/provider")
+    @PatchMapping("/appointments/{appointmentId}/employee")
     public AppointmentResponse changeAppointmentProvider(@PathVariable Long appointmentId, @RequestBody ChangeAppointmentProvider request ) {
 
-        return appointmentService.changeAppointmentProvider(appointmentId, request.employeeId());
+        return appointmentService.changeAppointmentProvider(appointmentId, request.employeeId() );
+    }
+
+    @DeleteMapping("/appointments/{appointmentId}")
+    public ResponseEntity<Void> deleteAppointment(@PathVariable Long appointmentId) {
+        appointmentService.deleteAppointmentRequest(appointmentId);
+        return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/appointments/{appointmentId}/status")

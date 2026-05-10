@@ -34,7 +34,7 @@ export const AppointmentRow: React.FC<AppointmentRowProps> = ({
     setSaveError(null);
     try {
       const body = { employeeId };
-      const res = await fetch(`${API_BASE_URL}/v1/appointments/${appointment.id}/provider`, {
+      const res = await fetch(`${API_BASE_URL}/v1/appointments/${appointment.id}/employee`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),

@@ -124,7 +124,7 @@ export const AppointmentList: React.FC = () => {
         const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api';
         
         // Fetch all appointments (support both plural and singular backend routes)
-        const appointmentEndpoints = ['/v1/appointments/all', '/v1/appointment/all'];
+        const appointmentEndpoints = ['/v1/appointments', '/v1/appointment'];
         let appointmentsRaw: unknown = [];
         let fetched = false;
         for (const endpoint of appointmentEndpoints) {

@@ -44,7 +44,7 @@ export const loginCustomer = async (loginRequest: LoginRequest) => {
 
 export const fetchServices = async () => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/v1/cares`);
+        const response = await axios.get(`${API_BASE_URL}/v1/services`);
         console.log("Services fetched successfully:");
         return response.data;
     } catch (error) {
