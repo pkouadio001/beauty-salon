@@ -130,7 +130,7 @@ export const CustomerAppointmentList: React.FC = () => {
         }
 
         // Fetch customer's appointments
-        const appointmentsResponse = await fetch(`${apiBaseUrl}/v1/appointments/${customerId}/customer`);
+        const appointmentsResponse = await fetch(`${apiBaseUrl}/v1/customers/${customerId}/appointments`);
         if (!appointmentsResponse.ok) {
           throw new Error('Failed to fetch appointments');
         }
@@ -139,7 +139,7 @@ export const CustomerAppointmentList: React.FC = () => {
         setAppointments(appointmentsData);
 
         // Fetch services 
-        const servicesResponse = await fetch(`${apiBaseUrl}/v1/cares`);
+        const servicesResponse = await fetch(`${apiBaseUrl}/v1/services`);
         if (servicesResponse.ok) {
           const servicesRaw = await servicesResponse.json();
           const servicesData = toArray(servicesRaw);

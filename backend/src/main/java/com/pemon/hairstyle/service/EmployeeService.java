@@ -26,9 +26,6 @@ public class EmployeeService {
         return employeeRepository.findById(id).map(this::toEmployeeResponse).orElseThrow(() -> new IllegalArgumentException("Employee not found"));
     }
 
-  /*  public EmployeeResponse getEmployeeByEmail(String email) {
-        return employeeRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Employee not found"));
-    }*/
 
     public EmployeeSummaryResponse registerEmployee(RegisterEmployeeRequest request) {
 

@@ -1,7 +1,9 @@
 package com.pemon.hairstyle.controller;
 
 import com.pemon.hairstyle.model.Care;
+import com.pemon.hairstyle.model.ServiceSummaryResponse;
 import com.pemon.hairstyle.repository.CareRepository;
+import com.pemon.hairstyle.service.CareService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +17,11 @@ import java.util.List;
 public class CareController {
 
     private final CareRepository careRepository;
+    private final CareService careService;
 
-    public CareController(CareRepository careRepository) {
+    public CareController(CareRepository careRepository, CareService careService) {
         this.careRepository = careRepository;
+        this.careService = careService;
     }
 
     @GetMapping("/services")
@@ -26,8 +30,8 @@ public class CareController {
     }
 
     @GetMapping("/services/{serviceId}")
-    public Care getServiceById(@Valid @PathVariable Long serviceId) {
-        return careRepository.findById(serviceId).orElseThrow(() -> new IllegalArgumentException("Service not found"));
+    public ServiceSummaryResponse getServiceById(@Valid @PathVariable Long serviceId) {
+        return careService.findServiceById(serviceId);
     }
 
 }
