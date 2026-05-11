@@ -127,7 +127,7 @@ export const EmployeeAppointmentList: React.FC = () => {
         }
 
         // Fetch all appointments (support both plural and singular backend routes)
-        const appointmentEndpoints = ['/v1/appointments/all', '/v1/appointment/all'];
+        const appointmentEndpoints = ['/v1/appointments'];
         let appointmentsRaw: unknown = [];
         let fetched = false;
         for (const endpoint of appointmentEndpoints) {
@@ -150,7 +150,7 @@ export const EmployeeAppointmentList: React.FC = () => {
         setAppointments(employeeAppointments);
 
         // Fetch services
-        const servicesResponse = await fetch(`${apiBaseUrl}/v1/cares`);
+        const servicesResponse = await fetch(`${apiBaseUrl}/v1/services`);
         if (servicesResponse.ok) {
           const servicesRaw = await servicesResponse.json();
           const servicesData = toArray(servicesRaw);
@@ -171,7 +171,7 @@ export const EmployeeAppointmentList: React.FC = () => {
         for (const appointment of employeeAppointments) {
           if (!customersMap[appointment.customerId]) {
             try {
-              const customerResponse = await fetch(`${apiBaseUrl}/v1/customer?id=${appointment.customerId}`);
+              const customerResponse = await fetch(`${apiBaseUrl}/v1/customers/${appointment.customerId}`);
               if (customerResponse.ok) {
                 const customerData = await customerResponse.json();
                 customersMap[appointment.customerId] = customerData;

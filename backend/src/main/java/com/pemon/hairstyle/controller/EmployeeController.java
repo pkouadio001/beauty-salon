@@ -1,6 +1,6 @@
 package com.pemon.hairstyle.controller;
 
-import com.pemon.hairstyle.model.Employee;
+import com.pemon.hairstyle.model.EmployeeSummaryResponse;
 import com.pemon.hairstyle.service.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +19,13 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public List <Employee> getAllEmployees() {
-        return employeeService.getEmployeeRepository();
+    public List <EmployeeSummaryResponse> getAllEmployees() {
+        return employeeService.getAllEmployee();
     }
-
+    @GetMapping("/employees/{employeeId}")
+    public EmployeeSummaryResponse getEmployeeById(@PathVariable Long employeeId) {
+        return employeeService.getEmployeeById(employeeId);
+    }
 
 
 }

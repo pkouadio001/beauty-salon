@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.pemon.hairstyle.repository.CareRepository;
 import com.pemon.hairstyle.repository.CustomerRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -45,7 +46,7 @@ public class AppointmentService {
                 .toList();
     }
 
-    public Appointment saveAppointment(BookAppointmentRequest request) {
+    public AppointmentResponse saveAppointment(BookAppointmentRequest request) {
         Customer customer = customerRepository.findById(request.customerId())
                 .orElseThrow(() -> new IllegalArgumentException("Customer not found: " + request.customerId()));
         Employee employee = employeeRepository.findAll().getFirst();
@@ -56,12 +57,12 @@ public class AppointmentService {
         appointment.setCustomer(customer);
         appointment.setService(care);
         appointment.setEmployee(employee);
-        appointment.setTotalPrice(request.totalPrice());
+        appointment.setTotalPrice(new BigDecimal(care.getPrice()));
         appointment.setAppointmentDate(request.appointmentDate());
         appointment.setAppointmentTime(request.appointmentTime());
         appointment.setStatus(Status.PENDING);
-
-        return appointmentRepository.save(appointment);
+        appointmentRepository.save(appointment);
+        return new AppointmentResponse(appointment.getId(),appointment.getAppointmentDate(), appointment.getAppointmentTime(), appointment.getService().getId(), appointment.getStatus(), appointment.getTotalPrice(), appointment.getCustomer().getId(), appointment.getEmployee().getId());
     }
 
     public List<AppointmentResponse> getAllAppointments() {
@@ -79,10 +80,17 @@ public class AppointmentService {
                 appointment.getService().getId(),
                 appointment.getStatus(),
                 appointment.getTotalPrice(),
-                appointment.getEmployee().getId(),
-                appointment.getCustomer().getId()
+                appointment.getCustomer().getId(),
+                appointment.getEmployee().getId()
 
         );
+    }
+
+    public void deleteAppointmentRequest(Long appointmentId) {
+        if (!appointmentRepository.existsById(appointmentId)) {
+            throw new IllegalArgumentException("Appointment not found");
+        }
+        appointmentRepository.deleteById(appointmentId);
     }
 
     public CustomerAppointmentResponse toCustomerAppointmentResponse(Appointment appointment) {

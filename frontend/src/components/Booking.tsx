@@ -202,7 +202,7 @@ const BookingForm: React.FC = () => {
         customer_id: customerId,
       };
 
-      const response = await fetch(`${API_BASE_URL}/v1/appointment/book`, {
+      const response = await fetch(`${API_BASE_URL}/v1/appointments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

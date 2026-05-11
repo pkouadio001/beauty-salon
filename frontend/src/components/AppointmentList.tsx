@@ -124,7 +124,7 @@ export const AppointmentList: React.FC = () => {
         const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api';
         
         // Fetch all appointments (support both plural and singular backend routes)
-        const appointmentEndpoints = ['/v1/appointments/all', '/v1/appointment/all'];
+        const appointmentEndpoints = ['/v1/appointments', '/v1/appointment'];
         let appointmentsRaw: unknown = [];
         let fetched = false;
         for (const endpoint of appointmentEndpoints) {
@@ -150,7 +150,7 @@ export const AppointmentList: React.FC = () => {
         }
 
         // Fetch services and customers (you may need to adjust these endpoints)
-        const servicesResponse = await fetch(`${apiBaseUrl}/v1/cares`);
+        const servicesResponse = await fetch(`${apiBaseUrl}/v1/services`);
         if (servicesResponse.ok) {
           const servicesRaw = await servicesResponse.json();
           const servicesData = toArray(servicesRaw);
@@ -174,7 +174,7 @@ export const AppointmentList: React.FC = () => {
         for (const appointment of appointmentsData) {
           if (!customersMap[appointment.customerId]) {
             try {
-              const customerResponse = await fetch(`${apiBaseUrl}/v1/customer?id=${appointment.customerId}`);
+              const customerResponse = await fetch(`${apiBaseUrl}/v1/customers/${appointment.customerId}`);
               if (customerResponse.ok) {
                 const customerData = await customerResponse.json();
                 customersMap[appointment.customerId] = customerData;
