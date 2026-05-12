@@ -1,5 +1,4 @@
 -- 1. Setup Namespace
-DROP SCHEMA hairstyle CASCADE;
 CREATE SCHEMA IF NOT EXISTS hairstyle;
 SET search_path TO hairstyle, public;
 
