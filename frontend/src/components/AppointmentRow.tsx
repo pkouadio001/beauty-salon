@@ -8,7 +8,7 @@ interface AppointmentRowProps {
   availableEmployees: Employee[];
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const AppointmentRow: React.FC<AppointmentRowProps> = ({
   appointment,
@@ -97,7 +97,7 @@ export const AppointmentRow: React.FC<AppointmentRowProps> = ({
 
       {/* Appointment Time */}
       <td className="p-4 border-r border-gray-300 text-center text-sm">
-        {new Date(appointment.appointmentDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        {appointment.appointmentTime}
       </td>
 
       {/* Total Cost */}

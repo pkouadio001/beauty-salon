@@ -13,7 +13,7 @@ public record RegisterCustomerRequest(
         @NotBlank(message = "Phone number is required")
         String phoneNumber,
         @NotBlank(message = "Password is required")
-        @Size(min = 8)
+        @Size(min = 8, message = "Password must be at least 8 characters")
         String password,
         @NotBlank
         String dateOfBirth

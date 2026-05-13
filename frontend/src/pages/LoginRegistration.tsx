@@ -26,7 +26,7 @@ interface SignupFormState {
   dateOfBirth: string;
 }
 
-const LoginRestration: React.FC = () => {
+const LoginRegistration: React.FC = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
@@ -358,4 +358,4 @@ const LoginRestration: React.FC = () => {
   );
 };
 
-export default LoginRestration;
+export default LoginRegistration;

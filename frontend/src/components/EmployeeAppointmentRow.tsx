@@ -61,7 +61,7 @@ export const EmployeeAppointmentRow: React.FC<EmployeeAppointmentRowProps> = ({
 
       {/* Appointment Time */}
       <td className="p-4 border-r border-gray-300 text-center text-sm">
-        {new Date(appointment.appointmentDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        {appointment.appointmentTime}
       </td>
 
       {/* Total Cost */}

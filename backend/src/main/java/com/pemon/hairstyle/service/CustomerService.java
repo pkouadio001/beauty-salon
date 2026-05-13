@@ -34,7 +34,7 @@ public class CustomerService {
             throw new IllegalArgumentException("Email is already registered");
         }
 
-        String encodedPassword = passwordEncoder.encode(customer.getPassword());
+        String encodedPassword = passwordEncoder.encode(request.password());
         customer.setPassword(encodedPassword);
 
         customerRepository.save(customer);
